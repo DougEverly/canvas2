@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -5,7 +8,9 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @roles = Role.all
-  
+    
+    @tz = fetch_tz 1331161200
+    
     logger.debug(params[:roles])
     if params[:roles]
     logger.debug(params[:roles])
@@ -16,6 +21,16 @@ class UsersController < ApplicationController
     else
       @users = User.where(nil)
     end
+  end
+  
+  def fetch_tz(e)
+    url = "https://maps.googleapis.com/maps/api/timezone/json?location=37.77492950,-122.41941550&timestamp=#{e.to_i}&sensor=false"
+    uri = URI(url)
+    res = Net::HTTP::get(uri)
+    r = JSON.parse(res)
+    t = Time.at(e)
+    
+    t.getlocal(r["rawOffset"] + r["dstOffset"])
   end
 
   # GET /users/1
