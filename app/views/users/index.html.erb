@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users</h1>
+
+<table>
+  <thead>
+		<form method=GET>
+    <tr>
+      <th>Email</th>
+      <th>First</th>
+      <th>Last</th>
+      <th>
+				Roles
+				<select multiple name=roles[]>
+					<% @roles.each do |role| %>
+					<option value=<%= role.id %>><%= role.name %></option>
+					<% end %>
+				</select>
+		<input type=submit></input>
+			</th>
+      <th colspan="3"></th>
+    </tr>
+	</form>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.first %></td>
+        <td><%= user.last %></td>
+        <td>
+					<%= user.user_to_roles.map{|r| r.role.name}.join(", ")%>
+				</td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User', new_user_path %>
