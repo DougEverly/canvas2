@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def index
     @roles = Role.all
     
-    @tz = fetch_tz 1331161200
+    @tz = fetch_tz Time.now.to_i
     
     logger.debug(params[:roles])
     if params[:roles]
