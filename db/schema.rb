@@ -12,22 +12,22 @@
 
 ActiveRecord::Schema.define(version: 20170628222604) do
 
-  create_table "roles", force: :cascade do |t|
+  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_to_roles", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
+  create_table "user_to_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_user_to_roles_on_role_id"
     t.index ["user_id"], name: "index_user_to_roles_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
     t.string "first"
     t.string "last"
@@ -35,4 +35,6 @@ ActiveRecord::Schema.define(version: 20170628222604) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "user_to_roles", "roles"
+  add_foreign_key "user_to_roles", "users"
 end

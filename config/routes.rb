@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  #get '/users' => 'users#index'
+  root 'users#index'
   resources :user_to_roles
   resources :roles
   resources :users
